@@ -1,0 +1,57 @@
+Create database farmMais;
+
+use farmMais;
+
+
+create table cliente(
+	CPF int unique,
+    nome_cliente varchar(50), 
+    endereco_cliente varchar(50),
+    telefone int not null,
+    email_cliente varchar(50),
+    data_nascimento date,
+	constraint pk_cliente primary key (CPF)
+    );
+    
+    create table endereco_cliente(
+    CPF int not null,
+    cep int not null,
+    estado varchar(45),
+    cidade_cliente varchar(50),
+    rua_cliente varchar(50),
+    bairro_cliente varchar(45),
+    Num_casa int,
+	constraint fk_endereco foreign key (cep) references cliente(CPF)
+    );
+    
+    create table telefone(
+    telefone_celular int not null,
+	telefone_residencial int not null,
+	telefone_comercial int not null,
+    CPF_cliente int not null,
+    constraint fk_cliente foreign key (CPF_cliente) references cliente(CPF)
+    );
+    
+    create table fabricante (
+    codigo_fabri int check (codigo_fabri >= 0), 
+    razao_social varchar(45) not null,
+    nome_fabri varchar(45),
+    email_fabri varchar(45),
+    constraint pk_fabricante primary key (codigo_fabri)
+    );
+    
+    create table medicamento(
+    codigo_medicamento int not null,
+    nome_medicamento varchar(50) not null,
+    ident_fabri varchar(45) not null,
+    data_validade date not null,
+    codigo_fabri int check (codigo_fabri >= 0), 
+    constraint fk_medicamento foreign key (codigo_fabri) references fabricante(codigo_fabri)
+    );
+    
+    create table venda(
+    codigo_venda int,
+    data_venda date,
+    cpf_cliente int,
+    constraint fk_venda foreign key (CPF_cliente) references cliente (CPF)
+    );
